@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.classList.remove('no-js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== PRIMARY SEO ===== -->
@@ -70,14 +71,13 @@
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;scroll-padding-top:96px;}
   body{
     background:var(--black);
     color:var(--cream);
     font-family:var(--body);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
   }
   img{max-width:100%;display:block;}
   a{color:inherit;text-decoration:none;}
@@ -156,12 +156,13 @@
   header{
     position:fixed;
     top:0;left:0;right:0;
-    z-index:100;
+    z-index:220;
     padding:22px 0;
     transition:background .35s ease, padding .35s ease, border-color .35s ease;
     border-bottom:1px solid transparent;
   }
-  header.scrolled{
+  header.scrolled,
+  body.drawer-open header{
     background:rgba(10,10,10,0.92);
     backdrop-filter:blur(10px);
     padding:14px 0;
@@ -171,7 +172,8 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:24px;
+    gap:16px;
+    min-width:0;
   }
   .logo{
     display:flex;
@@ -181,9 +183,17 @@
     font-size:20px;
     letter-spacing:0.02em;
     text-transform:uppercase;
-    flex-shrink:0;
+    flex-shrink:1;
+    min-width:0;
   }
   .logo .accent{color:var(--orange);}
+  .logo-img{
+    height:42px;
+    width:auto;
+    max-width:min(220px, 46vw);
+    display:block;
+    object-fit:contain;
+  }
   .logo-mark{
     width:34px;height:34px;
     flex-shrink:0;
@@ -238,11 +248,18 @@
     justify-content:center;
     align-items:center;
     gap:5px;
+    flex-shrink:0;
+    border:1px solid var(--hairline);
+    border-radius:50%;
   }
   .burger span{
     width:22px;height:2px;background:var(--cream);
     transition:transform .3s ease, opacity .3s ease;
+    display:block;
   }
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
   /* ===================== HERO ===================== */
   .hero{
@@ -482,6 +499,8 @@
     border-radius:4px;
     overflow:hidden;
     transition:border-color .25s ease, transform .25s ease;
+    display:block;
+    color:inherit;
   }
   .product-card:hover{
     border-color:rgba(255,122,26,0.4);
@@ -512,9 +531,9 @@
   .product-info{
     padding:18px 20px 22px;
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
   }
   .product-info h4{
     font-family:var(--head);
@@ -527,8 +546,9 @@
     font-family:var(--mono);
     font-weight:600;
     color:var(--orange);
-    font-size:15px;
-    flex-shrink:0;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
   }
 
   /* product helmet/jacket/glove illustrations */
@@ -595,6 +615,13 @@
     text-transform:uppercase;
     color:var(--orange);
     display:inline-flex;align-items:center;gap:6px;
+    cursor:pointer;
+    list-style:none;
+  }
+  .dispatch-read::-webkit-details-marker{display:none;}
+  .dispatch-card details p{
+    margin-top:10px;
+    max-width:420px;
   }
 
   .bg-desert{background:
@@ -602,6 +629,9 @@
   }
   .bg-alps{background:
     linear-gradient(160deg, #1a2e22 0%, #16241c 50%, #0c1410 100%);
+  }
+  .bg-naran{background:
+    linear-gradient(165deg, #1e2a3a 0%, #243044 45%, #0c1016 100%);
   }
 
   /* ===================== JOIN THE RIDE (ember band) ===================== */
@@ -667,10 +697,11 @@
     text-transform:uppercase;
     background:var(--orange);
     color:var(--black);
-    padding:0 28px;
+    padding:15px 28px;
     border-radius:2px;
     transition:background .2s ease;
     flex-shrink:0;
+    min-height:52px;
   }
   .join-form button:hover{background:var(--cream);}
   .join-note{
@@ -694,6 +725,7 @@
     padding-bottom:60px;
   }
   .footer-brand .logo{margin-bottom:18px;}
+  .footer-brand .logo-img{height:40px;max-width:200px;}
   .footer-brand p{
     color:var(--muted);
     font-size:14px;
@@ -761,8 +793,9 @@
     font-size:12px;
     letter-spacing:0.08em;
     text-transform:uppercase;
-    padding:0 18px;
+    padding:11px 18px;
     border-radius:2px;
+    min-height:42px;
   }
   .footer-bottom{
     border-top:1px solid var(--hairline);
@@ -800,6 +833,48 @@
     color:var(--muted);
   }
 
+  /* ===================== FAQ ===================== */
+  .faq-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    max-width:820px;
+  }
+  .faq-item{
+    border:1px solid var(--hairline);
+    border-radius:4px;
+    background:var(--surface);
+  }
+  .faq-item summary{
+    cursor:pointer;
+    padding:20px 24px;
+    font-family:var(--head);
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:'+';
+    color:var(--orange);
+    font-size:22px;
+    line-height:1;
+    flex-shrink:0;
+  }
+  .faq-item[open] summary::after{content:'–';}
+  .faq-item p{
+    padding:0 24px 20px;
+    color:var(--cream-dim);
+    font-size:15px;
+    line-height:1.65;
+  }
+
   /* ===================== REVEAL ANIMATION ===================== */
   .reveal{
     opacity:0;
@@ -810,10 +885,16 @@
     opacity:1;
     transform:translateY(0);
   }
+  html.no-js .reveal,
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
 
   /* ===================== RESPONSIVE ===================== */
   @media (max-width:980px){
     .nav-links{display:none;}
+    .nav-cta{display:none;}
     .burger{display:flex;}
     .pillar-grid{grid-template-columns:1fr;}
     .product-grid{grid-template-columns:repeat(2,1fr);}
@@ -834,11 +915,35 @@
     .join-form{flex-direction:column;}
     .footer-bottom{flex-direction:column;align-items:flex-start;}
     .stat-grid{grid-template-columns:1fr 1fr;}
+    .header-phone{display:none;}
+    .header-wa{display:none;}
+    .logo-img{height:28px;max-width:min(148px, 52vw);}
+    .nav-right{gap:8px;}
+    .hero-ctas{flex-direction:column;align-items:center;}
+    .hero-ctas .btn{justify-content:center;min-width:220px;}
   }
 
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    .reveal{opacity:1;transform:none;}
   }
+
+  body.drawer-open{overflow:hidden;}
+
+  .skip-link{
+    position:absolute;
+    left:16px;top:-48px;
+    z-index:400;
+    background:var(--orange);
+    color:var(--black);
+    padding:10px 16px;
+    font-family:var(--head);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .skip-link:focus{top:16px;}
 
   /* mobile nav drawer */
   .mobile-drawer{
@@ -849,7 +954,7 @@
     max-width:320px;
     background:var(--black-soft);
     border-left:1px solid var(--hairline);
-    z-index:200;
+    z-index:210;
     transform:translateX(100%);
     transition:transform .35s ease;
     padding:100px 32px 40px;
@@ -869,12 +974,13 @@
   .drawer-backdrop{
     position:fixed;inset:0;
     background:rgba(0,0,0,0.6);
-    z-index:150;
+    z-index:200;
     opacity:0;
     pointer-events:none;
     transition:opacity .35s ease;
   }
   .drawer-backdrop.open{opacity:1;pointer-events:auto;}
+  body.drawer-open .wa-float{visibility:hidden;}
   :focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
 
   /* ===================== WHATSAPP FLOAT ===================== */
@@ -933,31 +1039,32 @@
 </style>
 </head>
 <body>
+<a href="#top" class="skip-link">Skip to content</a>
 
 <!-- ===================== HEADER ===================== -->
 <header id="site-header">
   <div class="wrap nav-row">
     <a href="#top" class="logo">
-      <img class="logo-mark" src="bikers-peak.webp" alt="Bikers Peak Logo" style="width:38px;height:38px;object-fit:contain;border-radius:4px;">
-      BIKERS<span class="accent">PEAK</span>
+      <img class="logo-img" src="Bikers-Peak.png" alt="Bikers Peak">
     </a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary">
       <a href="#shop">Shop</a>
       <a href="#blog">Blog</a>
       <a href="#services">Services</a>
+      <a href="#faq">FAQ</a>
       <a href="#about">About</a>
     </nav>
 
     <div class="nav-right">
-      <a href="tel:+923349793659" class="icon-btn" aria-label="Call us">
+      <a href="tel:+923349793659" class="icon-btn header-phone" aria-label="Call us">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       </a>
-      <a href="https://wa.me/923349793659" target="_blank" rel="noopener" class="icon-btn" aria-label="Chat on WhatsApp" style="color:#25D366;border-color:#25D366;">
+      <a href="https://wa.me/923349793659" target="_blank" rel="noopener noreferrer" class="icon-btn header-wa" aria-label="Chat on WhatsApp" style="color:#25D366;border-color:#25D366;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
-      <a href="#shop" class="btn btn-primary">Gear Up</a>
-      <button class="burger" id="burger" aria-label="Open menu">
+      <a href="#shop" class="btn btn-primary nav-cta">Gear Up</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -965,12 +1072,13 @@
 </header>
 
 <div class="drawer-backdrop" id="drawer-backdrop"></div>
-<nav class="mobile-drawer" id="mobile-drawer">
+<nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile">
   <a href="#shop">Shop</a>
   <a href="#blog">Blog</a>
   <a href="#services">Services</a>
+  <a href="#faq">FAQ</a>
   <a href="#about">About</a>
-  <a href="#shop" class="btn btn-primary" style="justify-content:center;">Gear Up</a>
+  <a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="justify-content:center;">Book Service</a>
 </nav>
 
 <main id="top">
@@ -1033,7 +1141,7 @@
           Shop Gear
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#services" class="btn btn-outline">Book Service</a>
+        <a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20book%20a%20motorcycle%20service." class="btn btn-outline" target="_blank" rel="noopener noreferrer">Book Service</a>
       </div>
     </div>
 
@@ -1083,14 +1191,14 @@
             <span class="pillar-tag">Expert Repair</span>
             <h3>We Fix What Others Can't</h3>
             <p>From full engine rebuilds to quick tune-ups — our certified techs keep your machine running at its best.</p>
-            <a href="#services" class="pillar-link">
-              View Services
+            <a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20book%20a%20motorcycle%20service." class="pillar-link" target="_blank" rel="noopener noreferrer">
+              Book a Service
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </article>
 
-        <article class="pillar-card reveal" id="blog">
+        <article class="pillar-card reveal">
           <div class="bg bg-blog"></div>
           <div class="scrim"></div>
           <div class="content">
@@ -1130,7 +1238,7 @@
           <span class="eyebrow">Featured Gear</span>
           <h2>Rider-Tested Picks</h2>
         </div>
-        <a href="#shop" class="view-all">
+        <a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20see%20your%20full%20gear%20catalog." class="view-all" target="_blank" rel="noopener noreferrer">
           View All Gear
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
         </a>
@@ -1138,10 +1246,10 @@
 
       <div class="product-grid">
 
-        <div class="product-card reveal">
+        <a class="product-card reveal" href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27m%20interested%20in%20the%20Apex%20Full-Face%20Helmet." target="_blank" rel="noopener noreferrer">
           <div class="product-media">
             <span class="product-flag">Best Seller</span>
-            <svg class="ill-helmet" viewBox="0 0 100 100">
+            <svg class="ill-helmet" viewBox="0 0 100 100" aria-hidden="true">
               <path d="M50 16c-19 0-32 14-32 34v14c0 4 3 7 7 7h2l3-13c1-4 4-6 8-6h24c4 0 7 2 8 6l3 13h2c4 0 7-3 7-7V50c0-20-13-34-32-34z"/>
               <path d="M18 58h64" />
               <ellipse cx="50" cy="78" rx="13" ry="5"/>
@@ -1150,14 +1258,14 @@
           </div>
           <div class="product-info">
             <h4>Apex Full-Face Helmet</h4>
-            <span class="product-price">$289</span>
+            <span class="product-price">Ask on WhatsApp</span>
           </div>
-        </div>
+        </a>
 
-        <div class="product-card reveal">
+        <a class="product-card reveal" href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27m%20interested%20in%20the%20Ironclad%20Riding%20Jacket." target="_blank" rel="noopener noreferrer">
           <div class="product-media">
             <span class="product-flag">New Arrival</span>
-            <svg class="ill-jacket" viewBox="0 0 100 100">
+            <svg class="ill-jacket" viewBox="0 0 100 100" aria-hidden="true">
               <path d="M50 14c-6 4-12 4-18 0l-10 8 6 12 6-3v51h44V31l6 3 6-12-10-8c-6 4-12 4-18 0z"/>
               <path d="M50 14v14"/>
               <path d="M34 50h32"/>
@@ -1167,14 +1275,14 @@
           </div>
           <div class="product-info">
             <h4>Ironclad Riding Jacket</h4>
-            <span class="product-price">$449</span>
+            <span class="product-price">Ask on WhatsApp</span>
           </div>
-        </div>
+        </a>
 
-        <div class="product-card reveal">
+        <a class="product-card reveal" href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27m%20interested%20in%20the%20Grip%20Pro%20Gloves." target="_blank" rel="noopener noreferrer">
           <div class="product-media">
             <span class="product-flag">Staff Pick</span>
-            <svg class="ill-glove" viewBox="0 0 100 100">
+            <svg class="ill-glove" viewBox="0 0 100 100" aria-hidden="true">
               <path d="M38 86V46c0-4 3-7 7-7s7 3 7 7v14"/>
               <path d="M52 60V40c0-4 3-7 7-7s7 3 7 7v20"/>
               <path d="M66 60V44c0-4 3-7 7-7s6 3 6 7v22c0 14-10 27-24 27H46c-9 0-16-7-16-16V58c0-4 3-7 7-7s7 3 7 7"/>
@@ -1183,60 +1291,99 @@
           </div>
           <div class="product-info">
             <h4>Grip Pro Gloves</h4>
-            <span class="product-price">$89</span>
+            <span class="product-price">Ask on WhatsApp</span>
           </div>
-        </div>
+        </a>
 
       </div>
     </div>
   </section>
 
   <!-- ===================== LATEST DISPATCHES ===================== -->
-  <section>
+  <section id="blog">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
           <span class="eyebrow">From the Road</span>
           <h2>Latest Dispatches</h2>
         </div>
-        <a href="#blog" class="view-all">
-          All Stories
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
-        </a>
       </div>
 
       <div class="dispatch-grid">
 
-        <article class="dispatch-card reveal">
+        <article class="dispatch-card reveal" id="story-kkh">
           <div class="bg bg-desert"></div>
           <div class="scrim"></div>
           <div class="content">
-            <span class="dispatch-tag">Route Report</span>
-            <h3>Death Valley to the Pacific: 1,200 Miles of Pure Desert</h3>
-            <p>We loaded up and pointed west. Three days, two mountain passes, and one unforgettable stretch of empty highway.</p>
-            <a href="#blog" class="dispatch-read">
-              Read Story
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <span class="dispatch-tag">Pakistan Dispatch</span>
+            <h3>Karakoram Highway: The Ride Every Pakistani Biker Dreams Of</h3>
+            <p>From Mansehra to Hunza, the KKH is a test of nerve, machine, and patience — and still the most beautiful road we know.</p>
+            <details>
+              <summary class="dispatch-read">Read Story</summary>
+              <p>Start early out of Mansehra and give yourself days, not hours. Landslides, checkpoints, and sudden weather are part of the deal. We service bikes for this route every season — chain, brakes, and cooling first. If you are planning the KKH, WhatsApp us before you leave Lahore.</p>
+            </details>
           </div>
         </article>
 
         <div class="dispatch-col">
-          <article class="dispatch-card small reveal">
+          <article class="dispatch-card small reveal" id="story-stelvio">
             <div class="bg bg-alps"></div>
             <div class="scrim"></div>
             <div class="content">
               <span class="dispatch-tag">Alps Dispatch</span>
               <h3>The Stelvio Pass: Europe's Greatest Moto Road</h3>
               <p>48 hairpins, 9,045 feet. No guardrails. This is why we ride.</p>
-              <a href="#blog" class="dispatch-read">
-                Read Story
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
+              <details>
+                <summary class="dispatch-read">Read Story</summary>
+                <p>Tight switchbacks, thin air, and coaches coming the other way. We rode it on a loaded adventure bike and still talk about the descent more than the climb.</p>
+              </details>
+            </div>
+          </article>
+          <article class="dispatch-card small reveal" id="story-naran">
+            <div class="bg bg-naran"></div>
+            <div class="scrim"></div>
+            <div class="content">
+              <span class="dispatch-tag">Weekend Ride</span>
+              <h3>Lahore to Naran: The Overnight Escape</h3>
+              <p>Leave after Isha, hit Naran for sunrise chai, and be back before Monday service.</p>
+              <details>
+                <summary class="dispatch-read">Read Story</summary>
+                <p>The N-15 rewards a well-set bike. Check your tyre pressures in Lahore, pack a rain layer, and do not skip the Naran bazaar stop. We keep a weekend-prep checklist at the shop — ask for it when you book.</p>
+              </details>
             </div>
           </article>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Support</span>
+          <h2>Questions, Answered</h2>
+        </div>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item reveal">
+          <summary>How do I book a service?</summary>
+          <p>WhatsApp us at +92 334 9793659 with your bike make, model, and the issue. We will confirm a slot for the Johar Town workshop. You can also call during shop hours.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Do you ship gear across Pakistan?</summary>
+          <p>Yes. Message us the item and your city. We pack helmets and apparel for delivery across Pakistan. Shipping time and charges depend on location — we confirm both on WhatsApp before you pay.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>What is your return policy?</summary>
+          <p>Unworn gear with tags can be returned or exchanged within 7 days. Helmets cannot be returned once used, for safety. If an item arrives damaged, send us photos on WhatsApp and we will sort a replacement.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Where is the shop?</summary>
+          <p>114-D Block, Nasir Chadhar Chowk, Main PIA Main Boulevard, Johar Town, Lahore. Tap the address in the footer for Google Maps directions.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -1269,8 +1416,8 @@
         <span class="eyebrow">Join the Community</span>
         <h2>JOIN<br><span class="ride">THE RIDE</span></h2>
         <p>Get route reports, gear reviews, and service tips delivered straight to your inbox. No spam — just the good stuff.</p>
-        <form class="join-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✓';">
-          <input type="email" placeholder="your@email.com" required aria-label="Email address">
+        <form class="join-form" id="join-form">
+          <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address" autocomplete="email">
           <button type="submit">Subscribe</button>
         </form>
         <p class="join-note">Join 4,200+ riders already on the list.</p>
@@ -1287,13 +1434,12 @@
 
       <div class="footer-brand">
         <a href="#top" class="logo">
-          <img class="logo-mark" src="bikers-peak.webp" alt="Bikers Peak Logo" style="width:38px;height:38px;object-fit:contain;border-radius:4px;">
-          BIKERS<span class="accent">PEAK</span>
+          <img class="logo-img" src="Bikers-Peak.png" alt="Bikers Peak">
         </a>
         <p>Built by riders, for riders. Expert repair, premium gear, and stories from the road — all in one place.</p>
 
         <div class="footer-contact">
-          <a href="#">
+          <a href="https://www.google.com/maps/search/?api=1&query=114-D+Block+Nasir+Chadhar+Chowk+PIA+Main+Boulevard+Johar+Town+Lahore" target="_blank" rel="noopener noreferrer">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             114-D Block, Nasir Chadhar Chowk, Main PIA Main Boulevard, Johar Town, Lahore 54000, Pakistan
           </a>
@@ -1301,7 +1447,7 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             +92 334 9793659
           </a>
-          <a href="https://wa.me/923349793659" target="_blank" rel="noopener">
+          <a href="https://wa.me/923349793659" target="_blank" rel="noopener noreferrer">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             WhatsApp Us
           </a>
@@ -1314,6 +1460,7 @@
           <li><a href="#shop">Shop Gear</a></li>
           <li><a href="#blog">Adventure Blog</a></li>
           <li><a href="#services">Repair Services</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#about">About Us</a></li>
         </ul>
       </div>
@@ -1321,26 +1468,26 @@
       <div class="footer-col">
         <h5>Services</h5>
         <ul>
-          <li><a href="#services">Engine Diagnostics</a></li>
-          <li><a href="#services">Full Tune-Up</a></li>
-          <li><a href="#services">Tire &amp; Brake Service</a></li>
-          <li><a href="#services">Book a Service</a></li>
+          <li><a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%20need%20engine%20diagnostics." target="_blank" rel="noopener noreferrer">Engine Diagnostics</a></li>
+          <li><a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20book%20a%20full%20tune-up." target="_blank" rel="noopener noreferrer">Full Tune-Up</a></li>
+          <li><a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%20need%20tire%20and%20brake%20service." target="_blank" rel="noopener noreferrer">Tire &amp; Brake Service</a></li>
+          <li><a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%27d%20like%20to%20book%20a%20motorcycle%20service." target="_blank" rel="noopener noreferrer">Book a Service</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h5>Support</h5>
         <ul>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Shipping Info</a></li>
-          <li><a href="#">Returns</a></li>
-          <li><a href="#">FAQ</a></li>
+          <li><a href="#about">Contact Us</a></li>
+          <li><a href="#faq">Shipping Info</a></li>
+          <li><a href="#faq">Returns</a></li>
+          <li><a href="#faq">FAQ</a></li>
         </ul>
 
         <div class="footer-join" style="margin-top:28px;">
           <h5>Join the Ride</h5>
-          <form class="footer-join-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓';">
-            <input type="email" placeholder="your@email.com" required aria-label="Email address">
+          <form class="footer-join-form" id="footer-join-form">
+            <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address" autocomplete="email">
             <button type="submit">Go</button>
           </form>
         </div>
@@ -1352,11 +1499,7 @@
       <span class="footer-tag">RIDE MORE. <span class="orange">FEAR LESS.</span></span>
 
       <div class="footer-socials">
-        <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.5 8.5s-.2-1.6-.8-2.3c-.8-.8-1.7-.8-2.1-.9C16.9 5 12 5 12 5s-4.9 0-7.6.3c-.4 0-1.3.1-2.1.9-.6.7-.8 2.3-.8 2.3S1.2 10.3 1.2 12.1v1.7c0 1.8.3 3.6.3 3.6s.2 1.6.8 2.3c.8.8 1.9.8 2.4.9 1.7.2 7.3.3 7.3.3s4.9 0 7.6-.3c.4 0 1.3-.1 2.1-.9.6-.7.8-2.3.8-2.3s.3-1.8.3-3.6v-1.7c0-1.8-.3-3.6-.3-3.6z"/><path d="M9.8 15.5l5.7-3.3-5.7-3.3z" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-        <a href="#" aria-label="Twitter"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.1 1.5 4.5 4.5 0 0 0-7.7 4.1A13 13 0 0 1 1.6 4.5a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.6 4.5 4.5 0 0 0 3.6 4.5 4.5 4.5 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.1A9 9 0 0 1 1 19.5 12.7 12.7 0 0 0 7.9 21c8.3 0 12.8-6.9 12.8-12.9v-.6A9.3 9.3 0 0 0 23 5.3 9 9 0 0 1 23 3z"/></svg></a>
-        <a href="https://wa.me/923349793659" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+        <a href="https://wa.me/923349793659" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
       </div>
 
       <span class="footer-copy">© 2026 Bikers Peak. All rights reserved.</span>
@@ -1365,7 +1508,7 @@
 </footer>
 
 <!-- ===================== WHATSAPP FLOAT BUTTON ===================== -->
-<a href="https://wa.me/923349793659" target="_blank" rel="noopener" class="wa-float" id="wa-float" aria-label="Chat on WhatsApp">
+<a href="https://wa.me/923349793659?text=Hi%20Bikers%20Peak%2C%20I%20have%20a%20question." target="_blank" rel="noopener noreferrer" class="wa-float" id="wa-float" aria-label="Chat on WhatsApp">
   <span class="wa-tooltip">Chat on WhatsApp</span>
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
@@ -1373,63 +1516,110 @@
 </a>
 
 <script>
+  document.documentElement.classList.remove('no-js');
+
   // Header scroll state
   const header = document.getElementById('site-header');
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 30);
-  });
+  }, { passive: true });
 
   // Mobile drawer
   const burger = document.getElementById('burger');
   const drawer = document.getElementById('mobile-drawer');
   const backdrop = document.getElementById('drawer-backdrop');
-  function closeDrawer(){
-    drawer.classList.remove('open');
-    backdrop.classList.remove('open');
+  function setDrawer(open){
+    drawer.classList.toggle('open', open);
+    backdrop.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    document.body.classList.toggle('drawer-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   }
-  burger.addEventListener('click', () => {
-    drawer.classList.toggle('open');
-    backdrop.classList.toggle('open');
-  });
+  function closeDrawer(){ setDrawer(false); }
+  burger.addEventListener('click', () => setDrawer(!drawer.classList.contains('open')));
   backdrop.addEventListener('click', closeDrawer);
   drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
 
   // Reveal on scroll
   const revealEls = document.querySelectorAll('.reveal');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => revealObserver.observe(el));
-
-  // Odometer-style stat count-up (signature element)
-  const statEls = document.querySelectorAll('.stat-num');
-  const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.count, 10);
-        const suffix = el.dataset.suffix || '';
-        const duration = 1400;
-        const start = performance.now();
-        function tick(now){
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const value = Math.floor(eased * target);
-          el.textContent = value + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-          else el.textContent = target + suffix;
+  function showReveals(){
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          revealObserver.unobserve(entry.target);
         }
-        requestAnimationFrame(tick);
-        statObserver.unobserve(el);
-      }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+    requestAnimationFrame(() => {
+      revealEls.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) {
+          el.classList.add('in');
+          revealObserver.unobserve(el);
+        }
+      });
     });
-  }, { threshold: 0.5 });
-  statEls.forEach(el => statObserver.observe(el));
+  } else {
+    showReveals();
+  }
+
+  // Odometer-style stat count-up
+  const statEls = document.querySelectorAll('.stat-num');
+  const animateStat = (el) => {
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now){
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.floor(eased * target);
+      el.textContent = value + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(tick);
+  };
+  if ('IntersectionObserver' in window) {
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStat(entry.target);
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(el => statObserver.observe(el));
+  } else {
+    statEls.forEach(animateStat);
+  }
+
+  // Newsletter: open a prefilled WhatsApp message (no backend required)
+  function handleSubscribe(form){
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = (form.querySelector('input[type="email"]') || {}).value || '';
+      const button = form.querySelector('button');
+      const original = button.textContent;
+      button.textContent = 'Opening WhatsApp…';
+      const text = encodeURIComponent('Hi Bikers Peak, please add me to the ride list. My email is ' + email + '.');
+      window.open('https://wa.me/923349793659?text=' + text, '_blank', 'noopener,noreferrer');
+      setTimeout(() => { button.textContent = original; form.reset(); }, 1600);
+    });
+  }
+  const joinForm = document.getElementById('join-form');
+  const footerJoin = document.getElementById('footer-join-form');
+  if (joinForm) handleSubscribe(joinForm);
+  if (footerJoin) handleSubscribe(footerJoin);
 </script>
 
 <!-- ===== JSON-LD STRUCTURED DATA ===== -->
@@ -1471,7 +1661,7 @@
       "sameAs": [
         "https://wa.me/923349793659"
       ],
-      "hasMap": "https://maps.google.com/?q=Johar+Town+Lahore+Pakistan"
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=114-D+Block+Nasir+Chadhar+Chowk+PIA+Main+Boulevard+Johar+Town+Lahore"
     },
     {
       "@type": "WebSite",
@@ -1481,11 +1671,6 @@
       "description": "Motorcycle Gear, Repair & Adventure",
       "publisher": {
         "@id": "https://www.bikerspeak.com/#business"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.bikerspeak.com/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
       }
     }
   ]
